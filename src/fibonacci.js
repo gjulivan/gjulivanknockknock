@@ -1,14 +1,20 @@
-function fibonacci(num){
-  var a = 1, b = 0, temp;
-
-  while (num >= 0){
-    temp = a;
-    a = a + b;
-    b = temp;
-    num--;
-  }
-
-  return b;
+var fibonacci = function(n, callback) {
+    var inner = function(n1, n2, i) {
+        if (i > n) {
+            callback(null, n2);
+            return;
+        }
+        var func = (i % 100) ? inner : inner_tick;
+        func(n2, n1 + n2, i + 1);
+    }
+    var inner_tick = function(n1, n2, i) {
+        process.nextTick(function() { inner(n1, n2, i); });
+    }
+    if (n == 1 || n == 2) {
+        callback(null, 1);
+    } else {
+        inner(1, 1, 3);
+    }
 }
 
 module.exports.fibonacci = fibonacci;

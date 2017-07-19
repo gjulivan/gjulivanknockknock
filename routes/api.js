@@ -3,15 +3,20 @@ var router = express.Router();
 var {fibonacci} = require('../src/fibonacci');
 var {getTriangleType} = require('../src/triangletype');
 
+
 /* GET home page. */
 router.get('/Fibonacci', function(req, res, next) {
-	 let num = req.query.n-1;
+	 let num = req.query.n;
 	 let fibNum = 1;
 	 if(num>=0){
-	   fibNum = fibonacci(num);	
+	    fibonacci(num, function(err, number) {
+	        res.json(number);
+	    });
+	 }
+	 else{
+			res.json(fibNum);
 	 }
 	 
- 	 res.json(fibNum);
 });
 
 router.get('/ReverseWords', function(req, res, next) {
